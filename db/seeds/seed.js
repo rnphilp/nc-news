@@ -10,7 +10,11 @@ exports.seed = (knex, Promise) => {
         .into('topics')
         .returning('*');
     })
-    .then(topics => {
-      console.log(topics);
-    });
+    .then(() => {
+      return knex
+        .insert(users)
+        .into('users')
+        .returning('*');
+    })
+    .then(() => {});
 };
