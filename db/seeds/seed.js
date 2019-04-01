@@ -1,4 +1,5 @@
 const { articles, comments, topics, users } = require('../data');
+const { objDateToSql } = require('../../utils/util-helpers');
 
 exports.seed = (knex, Promise) => {
   return knex.migrate
@@ -16,5 +17,12 @@ exports.seed = (knex, Promise) => {
         .into('users')
         .returning('*');
     })
-    .then(() => {});
+    .then(() => {
+      const articlesToAdd = objDateToSql(articles, 'created_at');
+      return knex
+        .insert(articlesToAdd)
+        .into('articles')
+        .returning('*');
+    })
+    .then(articles => {});
 };
