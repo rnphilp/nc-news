@@ -1,5 +1,8 @@
 const { expect } = require('chai');
-const { objDateToSql } = require('../utils/util-helpers');
+const {
+  objDateToSql,
+  createLookup
+} = require('../utils/util-helpers');
 
 describe('objDateToSql()', () => {
   it('converts an integer on an object representing a javascript dateTime to a date string to be inputted into pg, when passed a single object in an array. The original array and objects remain unchanged.', () => {
@@ -19,5 +22,21 @@ describe('objDateToSql()', () => {
     ];
     expect(objDateToSql(inputArr, 'date')).to.eql(outputArr);
     expect(inputArr).to.not.equal(outputArr);
+  });
+});
+
+describe('createLookup()', () => {
+  it('returns a single item lookup object when passed a single item array', () => {
+    const arr = [{ forename: 'firstname-b', surname: 'lastname-b', age: 30 }];
+    const lookupObj = { 'firstname-b': 30 };
+    expect(createLookup(arr, 'forename', 'age')).to.eql(lookupObj);
+  });
+  it('returns a two item lookup object when passed a two item array', () => {
+    const arr = [
+      { forename: 'firstname-b', surname: 'lastname-b', age: 30 },
+      { forename: 'firstname-c', surname: 'lastname-c', age: 21 }
+    ];
+    const lookupObj = { 'firstname-b': 30, 'firstname-c': 21 };
+    expect(createLookup(arr, 'forename', 'age')).to.eql(lookupObj);
   });
 });

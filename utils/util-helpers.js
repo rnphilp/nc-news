@@ -1,4 +1,4 @@
-const objDateToSql = (arr, objKey) => {
+exports.objDateToSql = (arr, objKey) => {
   return arr.map(obj => {
     const newObj = { ...obj };
     newObj[objKey] = new Date(newObj[objKey]).toISOString();
@@ -6,4 +6,9 @@ const objDateToSql = (arr, objKey) => {
   });
 };
 
-module.exports = { objDateToSql };
+exports.createLookup = (arr, key, value) => {
+  return arr.reduce((obj, item) => {
+    obj[item[key]] = item[value];
+    return obj;
+  }, {});
+};
