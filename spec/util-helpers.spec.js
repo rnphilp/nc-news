@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const {
-  objDateToSql,
+  datesToSql,
   createLookup,
-  replaceKey,
+  replaceKeys,
   renameKeys
 } = require('../utils/util-helpers');
 
