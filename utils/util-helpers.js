@@ -12,3 +12,11 @@ exports.createLookup = (arr, key, value) => {
     return obj;
   }, {});
 };
+
+exports.replaceKey = (arr, lookup, keyToRemove, keyToAdd) => {
+  return arr.map(item => {
+    item[keyToAdd] = lookup[item[keyToRemove]];
+    delete item[keyToRemove];
+    return item;
+  });
+};

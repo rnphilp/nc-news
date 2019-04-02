@@ -1,7 +1,8 @@
 const { expect } = require('chai');
 const {
   objDateToSql,
-  createLookup
+  createLookup,
+  replaceKey
 } = require('../utils/util-helpers');
 
 describe('objDateToSql()', () => {
@@ -38,5 +39,29 @@ describe('createLookup()', () => {
     ];
     const lookupObj = { 'firstname-b': 30, 'firstname-c': 21 };
     expect(createLookup(arr, 'forename', 'age')).to.eql(lookupObj);
+  });
+});
+
+describe('replaceKey()', () => {
+  it('replaces a key value pair based on a lookup object for a single item array', () => {
+    const arr = [{ forename: 'firstname-b', surname: 'lastname-b', age: 30 }];
+    const lookupObj = { 'firstname-b': 1234 };
+    const output = [{ person_id: 1234, surname: 'lastname-b', age: 30 }];
+    expect(replaceKey(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
+  });
+  it('replaces a key value pair based on a lookup object for a multiple item array', () => {
+    const arr = [
+      { forename: 'firstname-b', surname: 'lastname-b', age: 30 },
+      { forename: 'firstname-c', surname: 'lastname-c', age: 21 }
+    ];
+    const lookupObj = {
+      'firstname-b': 1234,
+      'firstname-c': 5678
+    };
+    const output = [
+      { person_id: 1234, surname: 'lastname-b', age: 30 },
+      { person_id: 5678, surname: 'lastname-c', age: 21 }
+    ];
+    expect(replaceKey(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
   });
 });
