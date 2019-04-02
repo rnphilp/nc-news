@@ -49,7 +49,7 @@ describe('/', () => {
         });
       });
     });
-    describe('/articles', () => {
+    describe.only('/articles', () => {
       describe('DEFAULT BEHAVIOUR', () => {
         it('GET status:200 responds with an array of all article objects', () => {
           return request
@@ -58,13 +58,11 @@ describe('/', () => {
             .then(({ body: { articles } }) => {
               articles.forEach((article) => {
                 expect(article).to.contain.keys(
-                  'author',
                   'title',
                   'article_id',
                   'topic',
                   'created_at',
                   'votes',
-                  'comment_count',
                 );
               });
             });
