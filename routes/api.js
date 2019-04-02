@@ -1,5 +1,5 @@
 const apiRouter = require('express').Router();
-const topicRouter = require('./topic-router');
+const topicsRouter = require('./topics-router');
 const { methodNotAllowed } = require('../errors');
 
 apiRouter
@@ -7,6 +7,6 @@ apiRouter
   .get((req, res) => res.send({ ok: true }))
   .all(methodNotAllowed);
 
-apiRouter.use('/topics', topicRouter);
+apiRouter.use('/topics', topicsRouter);
 
 module.exports = apiRouter;
