@@ -20,3 +20,14 @@ exports.replaceKey = (arr, lookup, keyToRemove, keyToAdd) => {
     return item;
   });
 };
+
+exports.renameKeys = (arr, oldKeyName, newKeyName) => {
+  return arr.map(obj => {
+    const newObj = { ...obj };
+    newObj[newKeyName] = newObj[oldKeyName];
+    delete newObj[oldKeyName];
+    return newObj;
+  });
+};
+
+// exports.articleNameToId = (comments, articles) => {};

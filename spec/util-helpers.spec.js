@@ -2,7 +2,8 @@ const { expect } = require('chai');
 const {
   objDateToSql,
   createLookup,
-  replaceKey
+  replaceKey,
+  renameKeys
 } = require('../utils/util-helpers');
 
 describe('objDateToSql()', () => {
@@ -63,5 +64,30 @@ describe('replaceKey()', () => {
       { person_id: 5678, surname: 'lastname-c', age: 21 }
     ];
     expect(replaceKey(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
+  });
+});
+
+describe('renameKeys()', () => {
+  it('returns a new array of new objects with the specified key renamed when passed an array with a single object', () => {
+    const inputArr = [{ foo: 'bar' }];
+    const outputArr = [{ baz: 'bar' }];
+    const res = renameKeys(inputArr, 'foo', 'baz');
+    expect(res).to.eql(outputArr);
+    expect(res).to.not.equal(inputArr);
+    expect(res[0]).to.not.equal(inputArr[0]);
+  });
+  it('returns a new array of new objects with the specified key renamed when passed an array of objects', () => {
+    const inputArr = [
+      { foo: 'bar', name: 'random' },
+      { foo: 'baz', animal: 'monkey' }
+    ];
+    const outputArr = [
+      { baz: 'bar', name: 'random' },
+      { baz: 'baz', animal: 'monkey' }
+    ];
+    const res = renameKeys(inputArr, 'foo', 'baz');
+    expect(res).to.eql(outputArr);
+    expect(res).to.not.equal(inputArr);
+    expect(res[0]).to.not.equal(inputArr[0]);
   });
 });
