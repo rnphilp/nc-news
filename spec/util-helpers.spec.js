@@ -6,11 +6,11 @@ const {
   renameKeys
 } = require('../utils/util-helpers');
 
-describe('objDateToSql()', () => {
+describe('datesToSql()', () => {
   it('converts an integer on an object representing a javascript dateTime to a date string to be inputted into pg, when passed a single object in an array. The original array and objects remain unchanged.', () => {
     const inputArr = [{ date: 1542284514171 }];
     const outputArr = [{ date: '2018-11-15T12:21:54.171Z' }];
-    expect(objDateToSql(inputArr, 'date')).to.eql(outputArr);
+    expect(datesToSql(inputArr, 'date')).to.eql(outputArr);
     expect(inputArr).to.not.equal(outputArr);
   });
   it('converts an integer on an object representing a javascript dateTime to a date string to be inputted into pg, when passed an array of objects in an array. The original array and objects remain unchanged.', () => {
@@ -22,7 +22,7 @@ describe('objDateToSql()', () => {
       { date: '2018-11-15T12:21:54.171Z', other: 'string' },
       { date: '1974-11-26T12:21:54.171Z', other: 'string2' }
     ];
-    expect(objDateToSql(inputArr, 'date')).to.eql(outputArr);
+    expect(datesToSql(inputArr, 'date')).to.eql(outputArr);
     expect(inputArr).to.not.equal(outputArr);
   });
 });
@@ -43,12 +43,12 @@ describe('createLookup()', () => {
   });
 });
 
-describe('replaceKey()', () => {
+describe('replaceKeys()', () => {
   it('replaces a key value pair based on a lookup object for a single item array', () => {
     const arr = [{ forename: 'firstname-b', surname: 'lastname-b', age: 30 }];
     const lookupObj = { 'firstname-b': 1234 };
     const output = [{ person_id: 1234, surname: 'lastname-b', age: 30 }];
-    expect(replaceKey(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
+    expect(replaceKeys(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
   });
   it('replaces a key value pair based on a lookup object for a multiple item array', () => {
     const arr = [
@@ -63,7 +63,7 @@ describe('replaceKey()', () => {
       { person_id: 1234, surname: 'lastname-b', age: 30 },
       { person_id: 5678, surname: 'lastname-c', age: 21 }
     ];
-    expect(replaceKey(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
+    expect(replaceKeys(arr, lookupObj, 'forename', 'person_id')).to.eql(output);
   });
 });
 

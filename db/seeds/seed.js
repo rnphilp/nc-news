@@ -1,7 +1,7 @@
 const { articles, comments, topics, users } = require('../data');
 const {
-  objDateToSql,
-  replaceKey,
+  datesToSql,
+  replaceKeys,
   createLookup,
   renameKeys
 } = require('../../utils/util-helpers');
@@ -23,17 +23,16 @@ exports.seed = (knex, Promise) => {
         .returning('*');
     })
     .then(() => {
-      const articlesToAdd = objDateToSql(articles, 'created_at');
+      const articlesToAdd = datesToSql(articles, 'created_at');
       return knex
         .insert(articlesToAdd)
         .into('articles')
         .returning('*');
     })
     .then(articlesAdded => {
-      let commentsToAdd = objDateToSql(comments, 'created_at');
-      // TODO: convert article name to article id
+      let commentsToAdd = datesToSql(comments, 'created_at');
       const lookup = createLookup(articlesAdded, 'title', 'article_id');
-      commentsToAdd = replaceKey(
+      commentsToAdd = replaceKeys(
         commentsToAdd,
         lookup,
         'belongs_to',

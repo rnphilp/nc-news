@@ -1,4 +1,4 @@
-exports.objDateToSql = (arr, objKey) => {
+exports.datesToSql = (arr, objKey) => {
   return arr.map(obj => {
     const newObj = { ...obj };
     newObj[objKey] = new Date(newObj[objKey]).toISOString();
@@ -13,7 +13,7 @@ exports.createLookup = (arr, key, value) => {
   }, {});
 };
 
-exports.replaceKey = (arr, lookup, keyToRemove, keyToAdd) => {
+exports.replaceKeys = (arr, lookup, keyToRemove, keyToAdd) => {
   return arr.map(item => {
     item[keyToAdd] = lookup[item[keyToRemove]];
     delete item[keyToRemove];
@@ -29,5 +29,3 @@ exports.renameKeys = (arr, oldKeyName, newKeyName) => {
     return newObj;
   });
 };
-
-// exports.articleNameToId = (comments, articles) => {};
