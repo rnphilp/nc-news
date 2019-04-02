@@ -28,10 +28,24 @@ describe('/', () => {
             .get('/api/topics')
             .expect(200)
             .then(({ body: { topics } }) => {
-              topics.forEach(topic => {
+              topics.forEach((topic) => {
                 expect(topic).to.contain.keys('slug', 'description');
               });
             });
+        });
+      });
+      describe('HANDLE ERRORS', () => {
+        it('POST, PUT, PATCH, DELETE status:405 handle methods that do not exist for this end point', () => {
+          const invalidMethods = ['post', 'put', 'patch', 'delete'];
+          return Promise.all(
+            invalidMethods.map((method) => {
+              return request[method]('/api/topics')
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Method Not Allowed');
+                });
+            }),
+          );
         });
       });
     });
