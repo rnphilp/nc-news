@@ -1,9 +1,11 @@
-const { articles, comments, topics, users } = require('../data');
+const {
+  articles, comments, topics, users,
+} = require('../data');
 const {
   datesToSql,
   replaceKeys,
   createLookup,
-  renameKeys
+  renameKeys,
 } = require('../../utils/util-helpers');
 
 exports.seed = (knex, Promise) => {
@@ -29,14 +31,14 @@ exports.seed = (knex, Promise) => {
         .into('articles')
         .returning('*');
     })
-    .then(articlesAdded => {
+    .then((articlesAdded) => {
       let commentsToAdd = datesToSql(comments, 'created_at');
       const lookup = createLookup(articlesAdded, 'title', 'article_id');
       commentsToAdd = replaceKeys(
         commentsToAdd,
         lookup,
         'belongs_to',
-        'article_id'
+        'article_id',
       );
       commentsToAdd = renameKeys(commentsToAdd, 'created_by', 'author');
       return knex

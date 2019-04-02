@@ -1,5 +1,5 @@
 exports.datesToSql = (arr, objKey) => {
-  return arr.map(obj => {
+  return arr.map((obj) => {
     const newObj = { ...obj };
     newObj[objKey] = new Date(newObj[objKey]).toISOString();
     return newObj;
@@ -14,7 +14,7 @@ exports.createLookup = (arr, key, value) => {
 };
 
 exports.replaceKeys = (arr, lookup, keyToRemove, keyToAdd) => {
-  return arr.map(item => {
+  return arr.map((item) => {
     item[keyToAdd] = lookup[item[keyToRemove]];
     delete item[keyToRemove];
     return item;
@@ -22,7 +22,7 @@ exports.replaceKeys = (arr, lookup, keyToRemove, keyToAdd) => {
 };
 
 exports.renameKeys = (arr, oldKeyName, newKeyName) => {
-  return arr.map(obj => {
+  return arr.map((obj) => {
     const newObj = { ...obj };
     newObj[newKeyName] = newObj[oldKeyName];
     delete newObj[oldKeyName];
