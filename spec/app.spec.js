@@ -58,6 +58,7 @@ describe('/', () => {
             .then(({ body: { articles } }) => {
               articles.forEach((article) => {
                 expect(article).to.contain.keys(
+                  'author',
                   'title',
                   'article_id',
                   'topic',
@@ -67,6 +68,15 @@ describe('/', () => {
               });
             });
         });
+        // it('GET status:200 responds with users.username as author', () => {
+        //   return request
+        //     .get('/api/articles')
+        //     .expect(200)
+        //     .then(({ body: { articles } }) => {
+        //       console.log(articles);
+        //       expect(articles[0].author).to.equal('butter_bridge');
+        //     });
+        // });
       });
     });
   });
