@@ -174,6 +174,14 @@ describe('/', () => {
               expect(article.title).to.eql('Living in the shadow of a great man');
             });
         });
+        it('GET status:200 handles invalid order query by using default value', () => {
+          return request
+            .get('/api/articles?order=invalid')
+            .expect(200)
+            .then(({ body: { articles: [article] } }) => {
+              expect(article.title).to.eql('Living in the shadow of a great man');
+            });
+        });
       });
     });
   });
