@@ -128,6 +128,14 @@ describe('/', () => {
               expect(article.title).to.equal('Living in the shadow of a great man');
             });
         });
+        it('GET status:200 response sorts in ascending order', () => {
+          return request
+            .get('/api/articles?order=asc')
+            .expect(200)
+            .then(({ body: { articles: [article] } }) => {
+              expect(article.title).to.equal('Moustache');
+            });
+        });
       });
       describe('HANDLE ERRORS', () => {
         it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
