@@ -68,15 +68,28 @@ describe('/', () => {
               });
             });
         });
-        // it('GET status:200 responds with users.username as author', () => {
-        //   return request
-        //     .get('/api/articles')
-        //     .expect(200)
-        //     .then(({ body: { articles } }) => {
-        //       console.log(articles);
-        //       expect(articles[0].author).to.equal('butter_bridge');
-        //     });
-        // });
+        it('GET status:200 includes a count of the comments on each article', () => {
+          return request
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              articles.forEach((article) => {
+                expect(article).to.contain.keys('comment_count');
+              });
+              return articles;
+            })
+            .then((articles) => {
+              expect(articles).to.deep.include({
+                author: 'butter_bridge',
+                title: 'Living in the shadow of a great man',
+                article_id: 1,
+                topic: 'mitch',
+                created_at: '2018-11-15T00:00:00.000Z',
+                votes: 100,
+                comment_count: '13',
+              });
+            });
+        });
       });
     });
   });
