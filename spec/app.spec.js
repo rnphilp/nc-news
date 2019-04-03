@@ -150,14 +150,14 @@ describe('/', () => {
             }),
           );
         });
-        // it('GET status:404 handle author query when not found', () => {
-        //   return request
-        //     .get('/api/articles?author')
-        //     .expect(404)
-        //     .then(({ body: { msg } }) => {
-        //       expect(msg).to.equal('Route Not Found');
-        //     });
-        // });
+        it('GET status:200 responds with an empty array when passed an invalid author query', () => {
+          return request
+            .get('/api/articles?author=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.equal(0);
+            });
+        });
       });
     });
   });
