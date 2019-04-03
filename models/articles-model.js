@@ -3,9 +3,8 @@ const connection = require('../db/connection');
 exports.getArticles = ({
   author, topic, sort_by, order,
 }) => {
-  // const columns = ['author', 'title', 'article_id', 'topic', 'created_at', 'votes'];
-  // if (!columns.includes(sort_by)) sort_by = 'created_at';
-  if (!sort_by) sort_by = 'created_at';
+  const columns = ['author', 'title', 'article_id', 'topic', 'created_at', 'votes'];
+  if (!columns.includes(sort_by)) sort_by = 'created_at';
   sort_by = `articles.${sort_by}`;
 
   if (order !== 'asc') order = 'desc';

@@ -166,6 +166,14 @@ describe('/', () => {
               expect(articles.length).to.equal(0);
             });
         });
+        it('GET status:200 handles invalid sort_by query by using default value', () => {
+          return request
+            .get('/api/articles?sort_by=invalid')
+            .expect(200)
+            .then(({ body: { articles: [article] } }) => {
+              expect(article.title).to.eql('Living in the shadow of a great man');
+            });
+        });
       });
     });
   });
