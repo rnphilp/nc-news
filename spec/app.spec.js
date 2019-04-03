@@ -68,15 +68,16 @@ describe('/', () => {
               });
             });
         });
-        // it('GET status:200 responds with users.username as author', () => {
-        //   return request
-        //     .get('/api/articles')
-        //     .expect(200)
-        //     .then(({ body: { articles } }) => {
-        //       console.log(articles);
-        //       expect(articles[0].author).to.equal('butter_bridge');
-        //     });
-        // });
+        it('GET status:200 includes a count of the comments on each article', () => {
+          return request
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              articles.forEach((article) => {
+                expect(article).to.contain.keys('comment_count');
+              });
+            });
+        });
       });
     });
   });

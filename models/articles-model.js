@@ -1,12 +1,16 @@
 const connection = require('../db/connection');
 
 exports.getArticles = () => {
-  return connection('articles').select(
-    'author',
-    'title',
-    'article_id',
-    'topic',
-    'created_at',
-    'votes',
-  );
+  return connection('articles')
+    .select(
+      'articles.author',
+      'articles.title',
+      'articles.article_id',
+      'articles.topic',
+      'articles.created_at',
+      'articles.votes',
+    )
+    .count('comments.article_id AS comment_count')
+    .join('comments', 'comments.article_id', '=', 'articles.article_id')
+    .groupBy('articles.article_id');
 };
