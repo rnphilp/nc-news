@@ -110,6 +110,16 @@ describe('/', () => {
               });
             });
         });
+        it('GET status:200 response filters by topic', () => {
+          return request
+            .get('/api/articles?topic=mitch')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              articles.forEach((article) => {
+                expect(article.topic).to.equal('mitch');
+              });
+            });
+        });
       });
       describe('HANDLE ERRORS', () => {
         it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {

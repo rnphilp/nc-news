@@ -1,6 +1,6 @@
 const connection = require('../db/connection');
 
-exports.getArticles = ({ username }) => {
+exports.getArticles = ({ username, topic }) => {
   const query = connection('articles')
     .select(
       'articles.author',
@@ -16,6 +16,7 @@ exports.getArticles = ({ username }) => {
     .orderBy('articles.created_at', 'desc');
 
   if (username) query.where({ 'articles.author': username });
+  if (topic) query.where({ 'articles.topic': topic });
 
   return query;
 };
