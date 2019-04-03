@@ -90,6 +90,14 @@ describe('/', () => {
               });
             });
         });
+        it('GET status:200 response sorts by date in descending order', () => {
+          return request
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: { articles: [article] } }) => {
+              expect(article.title).to.eql('Living in the shadow of a great man');
+            });
+        });
       });
     });
   });
