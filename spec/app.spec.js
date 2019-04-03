@@ -158,6 +158,14 @@ describe('/', () => {
               expect(articles.length).to.equal(0);
             });
         });
+        it('GET status:200 responds with an empty array when passed an invalid topic query', () => {
+          return request
+            .get('/api/articles?topic=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.equal(0);
+            });
+        });
       });
     });
   });
