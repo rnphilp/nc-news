@@ -102,7 +102,7 @@ describe('/', () => {
       describe('QUERIES', () => {
         it('GET status:200 response filters by author', () => {
           return request
-            .get('/api/articles?username=butter_bridge')
+            .get('/api/articles?author=butter_bridge')
             .expect(200)
             .then(({ body: { articles } }) => {
               articles.forEach((article) => {
@@ -150,6 +150,14 @@ describe('/', () => {
             }),
           );
         });
+        // it('GET status:404 handle author query when not found', () => {
+        //   return request
+        //     .get('/api/articles?author')
+        //     .expect(404)
+        //     .then(({ body: { msg } }) => {
+        //       expect(msg).to.equal('Route Not Found');
+        //     });
+        // });
       });
     });
   });

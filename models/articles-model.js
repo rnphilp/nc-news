@@ -1,7 +1,7 @@
 const connection = require('../db/connection');
 
 exports.getArticles = ({
-  username, topic, sort_by, order,
+  author, topic, sort_by, order,
 }) => {
   // const columns = ['author', 'title', 'article_id', 'topic', 'created_at', 'votes'];
   // if (!columns.includes(sort_by)) sort_by = 'created_at';
@@ -24,7 +24,7 @@ exports.getArticles = ({
     .groupBy('articles.article_id')
     .orderBy(sort_by, order);
 
-  if (username) query.where({ 'articles.author': username });
+  if (author) query.where({ 'articles.author': author });
   if (topic) query.where({ 'articles.topic': topic });
   return query;
 };
