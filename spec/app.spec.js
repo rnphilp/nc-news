@@ -49,7 +49,7 @@ describe('/', () => {
         });
       });
     });
-    describe.only('/articles', () => {
+    describe('/articles', () => {
       describe('DEFAULT BEHAVIOUR', () => {
         it('GET status:200 responds with an array of all article objects', () => {
           return request
@@ -97,6 +97,20 @@ describe('/', () => {
             .then(({ body: { articles: [article] } }) => {
               expect(article.title).to.eql('Living in the shadow of a great man');
             });
+        });
+      });
+      describe('HANDLE ERRORS', () => {
+        it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
+          const invalidMethods = ['post', 'put', 'patch', 'delete'];
+          return Promise.all(
+            invalidMethods.map((method) => {
+              return request[method]('/api/articles')
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Method Not Allowed');
+                });
+            }),
+          );
         });
       });
     });
