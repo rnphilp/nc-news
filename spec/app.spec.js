@@ -182,6 +182,14 @@ describe('/', () => {
               expect(article.title).to.eql('Living in the shadow of a great man');
             });
         });
+        it('GET status:200 handles invalid query parameters', () => {
+          return request
+            .get('/api/articles?invalid=invalid')
+            .expect(200)
+            .then(({ body: { articles: [article] } }) => {
+              expect(article.title).to.eql('Living in the shadow of a great man');
+            });
+        });
       });
     });
   });
