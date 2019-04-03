@@ -1,7 +1,7 @@
 const connection = require('../db/connection');
 
-exports.getArticles = () => {
-  return connection('articles')
+exports.getArticles = ({ username }) => {
+  const query = connection('articles')
     .select(
       'articles.author',
       'articles.title',
@@ -14,4 +14,8 @@ exports.getArticles = () => {
     .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
     .groupBy('articles.article_id')
     .orderBy('articles.created_at', 'desc');
+
+  if (username) query.where({ 'articles.author': username });
+
+  return query;
 };

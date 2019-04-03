@@ -99,6 +99,18 @@ describe('/', () => {
             });
         });
       });
+      describe('QUERIES', () => {
+        it('GET status:200 response filters by author', () => {
+          return request
+            .get('/api/articles?username=butter_bridge')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              articles.forEach((article) => {
+                expect(article.author).to.equal('butter_bridge');
+              });
+            });
+        });
+      });
       describe('HANDLE ERRORS', () => {
         it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
           const invalidMethods = ['post', 'put', 'patch', 'delete'];
