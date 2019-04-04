@@ -1,4 +1,4 @@
-const { patchComment } = require('../models/comments-model');
+const { patchComment, deleteComment } = require('../models/comments-model');
 
 exports.updateComment = (req, res, next) => {
   patchComment(req.params, req.body)
@@ -8,7 +8,14 @@ exports.updateComment = (req, res, next) => {
           status: 404,
           msg: `comment_id '${req.params.comment_id}' Not Found`,
         });
-      } res.status(200).json({ updatedComment });
+      }
+      res.status(200).json({ updatedComment });
     })
     .catch(next);
+};
+
+exports.removeComment = (req, res) => {
+  deleteComment(req.params).then(() => {
+    res.status(204).send();
+  });
 };

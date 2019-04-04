@@ -554,10 +554,21 @@ describe('/', () => {
                 expect(updatedComment.votes).to.equal(15);
               });
           });
+          it('DELETE status:204 removes the comment and returns empty response', () => {
+            return request
+              .del('/api/comments/1')
+              .expect(204)
+              .then(() => {
+                return request
+                  .patch('/api/comments/1')
+                  .send({ inc_votes: 1 })
+                  .expect(404);
+              });
+          });
         });
         describe('HANDLE ERRORS', () => {
-          it('GET, POST, PUT, DELETE status:405 handle methods that do not exist for this end point', () => {
-            const invalidMethods = ['get', 'post', 'put', 'delete'];
+          it('GET, POST, PUT status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['get', 'post', 'put'];
             return Promise.all(
               invalidMethods.map((method) => {
                 return request[method]('/api/comments/1')
