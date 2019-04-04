@@ -349,7 +349,7 @@ describe('/', () => {
         });
         describe.only('/comments', () => {
           describe('DEFAULT BEHAVIOUR', () => {
-            it('GET status:200', () => {
+            it('GET status:200 responds with a list of the comment objects associated with the article', () => {
               return request
                 .get('/api/articles/1/comments')
                 .expect(200)
@@ -365,6 +365,17 @@ describe('/', () => {
                   });
                 });
             });
+            it('GET status:200 sorts by created_at in descending order', () => {
+              return request
+                .get('/api/articles/1/comments')
+                .expect(200)
+                .then(({ body: { comments: [comment] } }) => {
+                  expect(comment.comment_id).to.equal(2);
+                });
+            });
+          });
+          describe('QUERIES', () => {
+            it('', () => {});
           });
           describe('HANDLES ERRORS', () => {
             it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
