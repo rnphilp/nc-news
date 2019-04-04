@@ -347,7 +347,7 @@ describe('/', () => {
               });
           });
         });
-        describe.only('/comments', () => {
+        describe('/comments', () => {
           describe('DEFAULT BEHAVIOUR', () => {
             it('GET status:200 responds with a list of the comment objects associated with the article', () => {
               return request
@@ -517,10 +517,43 @@ describe('/', () => {
         });
       });
     });
-    describe('/comments', () => {
+    describe.only('/comments', () => {
       describe('/:comment_id', () => {
         describe('DEFAULT BEHAVIOUR', () => {
-          it('PATCH status:202', () => {});
+          it('PATCH status:200 responds with the updated comment', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ inc_votes: 1 })
+              .expect(200)
+              .then(({ body: { updatedComment } }) => {
+                expect(updatedComment).to.include.keys(
+                  'comment_id',
+                  'author',
+                  'article_id',
+                  'votes',
+                  'created_at',
+                  'body',
+                );
+              });
+          });
+          it('PATCH status:200 increases the value of votes', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ inc_votes: 1 })
+              .expect(200)
+              .then(({ body: { updatedComment } }) => {
+                expect(updatedComment.votes).to.equal(17);
+              });
+          });
+          it('PATCH status:200 decreases the value of votes', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ inc_votes: -1 })
+              .expect(200)
+              .then(({ body: { updatedComment } }) => {
+                expect(updatedComment.votes).to.equal(15);
+              });
+          });
         });
       });
     });
