@@ -301,6 +301,24 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
+          it('PATCH status:400 response for invalid body value', () => {
+            return request
+              .patch('/api/articles/1')
+              .send({ inc_votes: 'invalid' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
+          it('PATCH status:400 response for invalid body key', () => {
+            return request
+              .patch('/api/articles/1')
+              .send({ invalid: 'invalid' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
         });
       });
     });
