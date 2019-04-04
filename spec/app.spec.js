@@ -240,6 +240,14 @@ describe('/', () => {
                 expect(msg).to.equal("article_id '1000' Could Not Be Found");
               });
           });
+          it('GET status:400 response for invalid article_id', () => {
+            return request
+              .get('/api/articles/invalid')
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
         });
       });
     });
