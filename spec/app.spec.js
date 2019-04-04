@@ -333,10 +333,17 @@ describe('/', () => {
           it('DELETE status:404 response for non-existant article_id', () => {
             return request
               .del('/api/articles/1000')
-              .send({ inc_votes: -1 })
               .expect(404)
               .then(({ body: { msg } }) => {
                 expect(msg).to.equal("article_id '1000' Could Not Be Found");
+              });
+          });
+          it('DELETE status:400 response for invalid article_id', () => {
+            return request
+              .del('/api/articles/invalid')
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
               });
           });
         });
