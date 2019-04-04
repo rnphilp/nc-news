@@ -482,6 +482,16 @@ describe('/', () => {
                   expect(msg).to.equal('Bad Request');
                 });
             });
+            it('POST status:400 response for invalid username', () => {
+              const comment = { username: 'invalid user', body: 'test comment' };
+              return request
+                .post('/api/articles/1/comments')
+                .send(comment)
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Bad Request');
+                });
+            });
           });
         });
       });
