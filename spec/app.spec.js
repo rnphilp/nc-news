@@ -502,6 +502,17 @@ describe('/', () => {
                   expect(msg).to.equal('Bad Request');
                 });
             });
+            it('POST status:202 ignores additional body parameters', () => {
+              const comment = {
+                username: 'butter_bridge',
+                body: 'test comment',
+                invalid: 'invalid',
+              };
+              return request
+                .post('/api/articles/1/comments')
+                .send(comment)
+                .expect(202);
+            });
           });
         });
       });
