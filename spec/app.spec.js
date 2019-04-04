@@ -578,6 +578,15 @@ describe('/', () => {
                 expect(msg).to.equal("comment_id '1000' Not Found");
               });
           });
+          it('POST status:400 for invalid comment_id', () => {
+            return request
+              .patch('/api/comments/invalid')
+              .send({ inc_votes: 1 })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
         });
       });
     });
