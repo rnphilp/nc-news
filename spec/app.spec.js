@@ -375,7 +375,14 @@ describe('/', () => {
             });
           });
           describe('QUERIES', () => {
-            it('', () => {});
+            it('GET status:200 responds with articles sorted by query sort_by', () => {
+              return request
+                .get('/api/articles/1/comments?sort_by=votes')
+                .expect(200)
+                .then(({ body: { comments: [comment] } }) => {
+                  expect(comment.comment_id).to.equal(3);
+                });
+            });
           });
           describe('HANDLES ERRORS', () => {
             it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
