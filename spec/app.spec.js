@@ -644,5 +644,19 @@ describe('/', () => {
         });
       });
     });
+    describe.only('/users', () => {
+      describe('/:username', () => {
+        describe('DEFAULT BEHAVIOUR', () => {
+          it('GET status:200 responds with the user object', () => {
+            return request
+              .get('/api/users/butter_bridge')
+              .expect(200)
+              .then(({ body: { user } }) => {
+                expect(user).to.include.keys('username', 'avatar_url', 'name');
+              });
+          });
+        });
+      });
+    });
   });
 });
