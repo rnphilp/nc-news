@@ -472,14 +472,16 @@ describe('/', () => {
                   expect(msg).to.equal('Route Not Found');
                 });
             });
-            // it('GET status:400 response for invalid article_id', () => {
-            //   return request
-            //     .get('/api/articles/invalid/comments')
-            //     .expect(400)
-            //     .then(({ body: { msg } }) => {
-            //       expect(msg).to.equal('Bad Request');
-            //     });
-            // });
+            it('POST status:400 response for invalid article_id', () => {
+              const comment = { username: 'butter_bridge', body: 'test comment' };
+              return request
+                .post('/api/articles/invalid/comments')
+                .send(comment)
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Bad Request');
+                });
+            });
           });
         });
       });
