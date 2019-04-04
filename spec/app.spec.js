@@ -462,6 +462,24 @@ describe('/', () => {
                   expect(comment.comment_id).to.equal(2);
                 });
             });
+            it('POST status:404 response for non-existant article_id', () => {
+              const comment = { username: 'butter_bridge', body: 'test comment' };
+              return request
+                .post('/api/articles/1000/comments')
+                .send(comment)
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Route Not Found');
+                });
+            });
+            // it('GET status:400 response for invalid article_id', () => {
+            //   return request
+            //     .get('/api/articles/invalid/comments')
+            //     .expect(400)
+            //     .then(({ body: { msg } }) => {
+            //       expect(msg).to.equal('Bad Request');
+            //     });
+            // });
           });
         });
       });
