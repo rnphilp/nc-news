@@ -5,3 +5,9 @@ exports.fetchArticles = (req, res) => {
     res.status(200).json({ articles });
   });
 };
+
+exports.fetchArticle = (req, res) => {
+  getArticles(req.params).then(([article]) => {
+    res.status(200).json({ article });
+  });
+};

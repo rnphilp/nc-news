@@ -191,6 +191,33 @@ describe('/', () => {
             });
         });
       });
+      describe('/:article_id', () => {
+        it('GET status:200 responds with the article associated with article_id', () => {
+          return request
+            .get('/api/articles/1')
+            .expect(200)
+            .then(({ body: { article } }) => {
+              expect(article.article_id).to.equal(1);
+            });
+        });
+        it('GET status:200 responds with the articles containing the relevant keys', () => {
+          return request
+            .get('/api/articles/1')
+            .expect(200)
+            .then(({ body: { article } }) => {
+              expect(article).to.contain.keys(
+                'author',
+                'title',
+                'article_id',
+                'body',
+                'topic',
+                'created_at',
+                'votes',
+                'comment_count',
+              );
+            });
+        });
+      });
     });
   });
 });
