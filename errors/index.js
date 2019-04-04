@@ -6,8 +6,9 @@ exports.handle400 = (err, req, res, next) => {
   }
 };
 
-exports.routeNotFound = (err, req, res, next) => {
-  res.status(404).send({ msg: 'Route Not Found' });
+exports.handle404 = (err, req, res, next) => {
+  if (!err.msg) res.status(404).send({ msg: 'Route Not Found' });
+  else res.status(404).send({ msg: err.msg });
 };
 
 exports.methodNotAllowed = (req, res) => {

@@ -6,8 +6,16 @@ exports.fetchArticles = (req, res) => {
   });
 };
 
-exports.fetchArticle = (req, res) => {
-  getArticles(req.params).then(([article]) => {
-    res.status(200).json({ article });
-  });
+exports.fetchArticle = (req, res, next) => {
+  getArticles(req.params)
+    .then(([article]) => {
+      if (!article) {
+        return Promise.reject({
+          status: 404,
+          msg: `article_id '${req.params.article_id}' Could Not Be Found`,
+        });
+      }
+      res.status(200).json({ article });
+    })
+    .catch(next);
 };

@@ -232,6 +232,14 @@ describe('/', () => {
               }),
             );
           });
+          it('GET status:404 response for non-existant article_id', () => {
+            return request
+              .get('/api/articles/1000')
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("article_id '1000' Could Not Be Found");
+              });
+          });
         });
       });
     });
