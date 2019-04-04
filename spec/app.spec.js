@@ -21,34 +21,6 @@ describe('/', () => {
           expect(body.ok).to.equal(true);
         });
     });
-    describe('/topics', () => {
-      describe('DEFAULT BEHAVIOUR', () => {
-        it('GET status:200 responds with an array of all the topic objects', () => {
-          return request
-            .get('/api/topics')
-            .expect(200)
-            .then(({ body: { topics } }) => {
-              topics.forEach((topic) => {
-                expect(topic).to.contain.keys('slug', 'description');
-              });
-            });
-        });
-      });
-      describe('HANDLE ERRORS', () => {
-        it('POST, PUT, PATCH, DELETE status:405 handle methods that do not exist for this end point', () => {
-          const invalidMethods = ['post', 'put', 'patch', 'delete'];
-          return Promise.all(
-            invalidMethods.map((method) => {
-              return request[method]('/api/topics')
-                .expect(405)
-                .then(({ body: { msg } }) => {
-                  expect(msg).to.equal('Method Not Allowed');
-                });
-            }),
-          );
-        });
-      });
-    });
     describe('/articles', () => {
       describe('DEFAULT BEHAVIOUR', () => {
         it('GET status:200 responds with an array of all article objects', () => {
@@ -517,7 +489,7 @@ describe('/', () => {
         });
       });
     });
-    describe.only('/comments', () => {
+    describe('/comments', () => {
       describe('/:comment_id', () => {
         describe('DEFAULT BEHAVIOUR', () => {
           it('PATCH status:200 responds with the updated comment', () => {
@@ -641,6 +613,34 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
+        });
+      });
+    });
+    describe('/topics', () => {
+      describe('DEFAULT BEHAVIOUR', () => {
+        it('GET status:200 responds with an array of all the topic objects', () => {
+          return request
+            .get('/api/topics')
+            .expect(200)
+            .then(({ body: { topics } }) => {
+              topics.forEach((topic) => {
+                expect(topic).to.contain.keys('slug', 'description');
+              });
+            });
+        });
+      });
+      describe('HANDLE ERRORS', () => {
+        it('POST, PUT, PATCH, DELETE status:405 handle methods that do not exist for this end point', () => {
+          const invalidMethods = ['post', 'put', 'patch', 'delete'];
+          return Promise.all(
+            invalidMethods.map((method) => {
+              return request[method]('/api/topics')
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Method Not Allowed');
+                });
+            }),
+          );
         });
       });
     });
