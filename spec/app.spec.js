@@ -633,6 +633,14 @@ describe('/', () => {
                 expect(msg).to.equal("comment_id '1000' Not Found");
               });
           });
+          it('DELETE status:400 for invalid comment_id', () => {
+            return request
+              .del('/api/comments/invalid')
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
         });
       });
     });
