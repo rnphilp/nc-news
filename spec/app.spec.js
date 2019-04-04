@@ -625,6 +625,14 @@ describe('/', () => {
                 expect(updatedComment.votes).to.equal(17);
               });
           });
+          it('DELETE status:404 for non-existant comment_id', () => {
+            return request
+              .del('/api/comments/1000')
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("comment_id '1000' Not Found");
+              });
+          });
         });
       });
     });
