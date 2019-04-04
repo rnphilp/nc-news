@@ -492,6 +492,16 @@ describe('/', () => {
                   expect(msg).to.equal('Bad Request');
                 });
             });
+            it('POST status:400 response for missing body parameter', () => {
+              const comment = { username: 'butter_bridge' };
+              return request
+                .post('/api/articles/1/comments')
+                .send(comment)
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Bad Request');
+                });
+            });
           });
         });
       });

@@ -2,7 +2,7 @@ exports.handle400 = (err, req, res, next) => {
   if (
     err.status === 400
     || err.code === '22P02'
-    || (err.code === '23503' && err.constraint === 'comments_author_foreign')
+    || ((err.code === '23503' && err.constraint === 'comments_author_foreign') || err.code === '23502')
   ) {
     res.status(400).send({ msg: 'Bad Request' });
   } else next(err);
