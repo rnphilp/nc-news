@@ -562,11 +562,21 @@ describe('/', () => {
               invalidMethods.map((method) => {
                 return request[method]('/api/comments/1')
                   .expect(405)
+                  .send({ inc_votes: 1 })
                   .then(({ body: { msg } }) => {
                     expect(msg).to.equal('Method Not Allowed');
                   });
               }),
             );
+          });
+          it('POST status:404 for non-existant comment_id', () => {
+            return request
+              .patch('/api/comments/1000')
+              .send({ inc_votes: 1 })
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("comment_id '1000' Not Found");
+              });
           });
         });
       });
