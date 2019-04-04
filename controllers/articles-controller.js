@@ -20,8 +20,16 @@ exports.fetchArticle = (req, res, next) => {
     .catch(next);
 };
 
-exports.updateArticle = (req, res) => {
-  patchArticle(req.params, req.body).then(([updatedArticle]) => {
-    res.status(200).json({ updatedArticle });
-  });
+exports.updateArticle = (req, res, next) => {
+  patchArticle(req.params, req.body)
+    .then(([updatedArticle]) => {
+      if (!updatedArticle) {
+        return Promise.reject({
+          status: 404,
+          msg: `article_id '${req.params.article_id}' Could Not Be Found`,
+        });
+      }
+      res.status(200).json({ updatedArticle });
+    })
+    .catch(next);
 };
