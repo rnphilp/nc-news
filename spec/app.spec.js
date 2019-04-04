@@ -430,14 +430,14 @@ describe('/', () => {
                   expect(msg).to.equal("article_id '1000' Could Not Be Found");
                 });
             });
-            // it('GET status:400 response for invalid article_id', () => {
-            //   return request
-            //     .get('/api/articles/invalid/comments')
-            //     .expect(400)
-            //     .then(({ body: { msg } }) => {
-            //       expect(msg).to.equal('Bad Request');
-            //     });
-            // });
+            it('GET status:400 response for invalid article_id', () => {
+              return request
+                .get('/api/articles/invalid/comments')
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal('Bad Request');
+                });
+            });
             it('GET status:200 handles invalid sort_by query by using default value', () => {
               return request
                 .get('/api/articles/1/comments?sort_by=invalid')
