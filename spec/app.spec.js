@@ -385,7 +385,7 @@ describe('/', () => {
               return request
                 .post('/api/articles/1/comments')
                 .send(comment)
-                .expect(202)
+                .expect(201)
                 .then(({ body: { createdComment } }) => {
                   expect(createdComment).to.deep.include(returnedComment);
                 });
@@ -502,7 +502,7 @@ describe('/', () => {
                   expect(msg).to.equal('Bad Request');
                 });
             });
-            it('POST status:202 ignores additional body parameters', () => {
+            it('POST status:201 ignores additional body parameters', () => {
               const comment = {
                 username: 'butter_bridge',
                 body: 'test comment',
@@ -511,9 +511,16 @@ describe('/', () => {
               return request
                 .post('/api/articles/1/comments')
                 .send(comment)
-                .expect(202);
+                .expect(201);
             });
           });
+        });
+      });
+    });
+    describe('/comments', () => {
+      describe('/:comment_id', () => {
+        describe('DEFAULT BEHAVIOUR', () => {
+          it('PATCH status:202', () => {});
         });
       });
     });
