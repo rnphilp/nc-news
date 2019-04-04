@@ -191,7 +191,7 @@ describe('/', () => {
             });
         });
       });
-      describe('/:article_id', () => {
+      describe.only('/:article_id', () => {
         describe('DEFAULT BEHAVIOUR', () => {
           it('GET status:200 responds with the article associated with article_id', () => {
             return request
@@ -218,10 +218,45 @@ describe('/', () => {
                 );
               });
           });
+          it('PATCH status:200 responds with the updated article', () => {
+            return request
+              .patch('/api/articles/1')
+              .send({ inc_votes: 1 })
+              .expect(200)
+              .then(({ body: { updatedArticle } }) => {
+                expect(updatedArticle).to.contain.keys(
+                  'author',
+                  'title',
+                  'article_id',
+                  'body',
+                  'topic',
+                  'created_at',
+                  'votes',
+                );
+              });
+          });
+          it('PATCH status:200 responds with an increase in the votes', () => {
+            return request
+              .patch('/api/articles/1')
+              .send({ inc_votes: 1 })
+              .expect(200)
+              .then(({ body: { updatedArticle } }) => {
+                expect(updatedArticle.votes).to.equal(101);
+              });
+          });
+          it('PATCH status:200 responds with a decrease in the votes', () => {
+            return request
+              .patch('/api/articles/1')
+              .send({ inc_votes: -1 })
+              .expect(200)
+              .then(({ body: { updatedArticle } }) => {
+                expect(updatedArticle.votes).to.equal(99);
+              });
+          });
         });
         describe('HANDLE ERRORS', () => {
-          it('POST, PUT, PATCH, DELETE status:405 handle methods that do not exist for this end point', () => {
-            const invalidMethods = ['post', 'put', 'patch', 'delete'];
+          it('POST, PUT, DELETE status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['post', 'put', 'delete'];
             return Promise.all(
               invalidMethods.map((method) => {
                 return request[method]('/api/articles/1')

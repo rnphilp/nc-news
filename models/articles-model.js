@@ -31,3 +31,10 @@ exports.getArticles = ({
   }
   return query;
 };
+
+exports.patchArticle = (article_id, { inc_votes }) => {
+  return connection('articles')
+    .returning(['author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'body'])
+    .increment({ votes: inc_votes })
+    .where(article_id);
+};

@@ -1,4 +1,4 @@
-const { getArticles } = require('../models/articles-model');
+const { getArticles, patchArticle } = require('../models/articles-model');
 
 exports.fetchArticles = (req, res) => {
   getArticles(req.query).then((articles) => {
@@ -18,4 +18,10 @@ exports.fetchArticle = (req, res, next) => {
       res.status(200).json({ article });
     })
     .catch(next);
+};
+
+exports.updateArticle = (req, res) => {
+  patchArticle(req.params, req.body).then(([updatedArticle]) => {
+    res.status(200).json({ updatedArticle });
+  });
 };
