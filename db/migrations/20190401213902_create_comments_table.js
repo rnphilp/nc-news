@@ -8,7 +8,8 @@ exports.up = function (knex, Promise) {
     comments
       .integer('article_id')
       .notNullable()
-      .references('articles.article_id');
+      .references('articles.article_id')
+      .onDelete('CASCADE');
     comments
       .integer('votes')
       .notNullable()

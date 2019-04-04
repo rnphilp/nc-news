@@ -253,10 +253,21 @@ describe('/', () => {
                 expect(updatedArticle.votes).to.equal(99);
               });
           });
+          it('DELETE status:204 responds with no content', () => {
+            return request
+              .delete('/api/articles/1')
+              .expect(204)
+              .then(() => {
+                return request.get('/api/articles/1').expect(404);
+              })
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("article_id '1' Could Not Be Found");
+              });
+          });
         });
         describe('HANDLE ERRORS', () => {
-          it('POST, PUT, DELETE status:405 handle methods that do not exist for this end point', () => {
-            const invalidMethods = ['post', 'put', 'delete'];
+          it('POST, PUT status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['post', 'put'];
             return Promise.all(
               invalidMethods.map((method) => {
                 return request[method]('/api/articles/1')
