@@ -656,6 +656,16 @@ describe('/', () => {
               });
           });
         });
+        describe('HANDLE ERRORS', () => {
+          it('GET status:404 for non-existant username', () => {
+            return request
+              .get('/api/users/invalid')
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("username 'invalid' Not Found");
+              });
+          });
+        });
       });
     });
   });
