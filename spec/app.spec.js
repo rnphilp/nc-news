@@ -587,6 +587,33 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
+          it('POST status:400 for invalid body value', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ inc_votes: 'invalid' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
+          it('POST status:400 for invalid body parameter', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ invalid: 'invalid' })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
+          it('POST status:200 ignores additional parameters', () => {
+            return request
+              .patch('/api/comments/1')
+              .send({ inc_votes: 1, invalid: 'invalid' })
+              .expect(200)
+              .then(({ body: { updatedComment } }) => {
+                expect(updatedComment.votes).to.equal(17);
+              });
+          });
         });
       });
     });
