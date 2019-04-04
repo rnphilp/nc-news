@@ -644,7 +644,7 @@ describe('/', () => {
         });
       });
     });
-    describe.only('/users', () => {
+    describe('/users', () => {
       describe('/:username', () => {
         describe('DEFAULT BEHAVIOUR', () => {
           it('GET status:200 responds with the user object', () => {
@@ -667,6 +667,16 @@ describe('/', () => {
           });
         });
       });
+    });
+  });
+  describe('/*', () => {
+    it('status 404 for invalid routes', () => {
+      return request
+        .get('/invalid')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).to.equal('Route Not Found');
+        });
     });
   });
 });
