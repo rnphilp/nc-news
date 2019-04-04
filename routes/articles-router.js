@@ -7,6 +7,9 @@ articlesRouter
   .get(fetchArticles)
   .all(methodNotAllowed);
 
-articlesRouter.route('/:article_id').get(fetchArticle);
+articlesRouter
+  .route('/:article_id')
+  .get(fetchArticle)
+  .all(methodNotAllowed);
 
 module.exports = articlesRouter;

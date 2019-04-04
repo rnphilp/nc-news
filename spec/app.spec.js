@@ -192,30 +192,46 @@ describe('/', () => {
         });
       });
       describe('/:article_id', () => {
-        it('GET status:200 responds with the article associated with article_id', () => {
-          return request
-            .get('/api/articles/1')
-            .expect(200)
-            .then(({ body: { article } }) => {
-              expect(article.article_id).to.equal(1);
-            });
+        describe('DEFAULT BEHAVIOUR', () => {
+          it('GET status:200 responds with the article associated with article_id', () => {
+            return request
+              .get('/api/articles/1')
+              .expect(200)
+              .then(({ body: { article } }) => {
+                expect(article.article_id).to.equal(1);
+              });
+          });
+          it('GET status:200 responds with the articles containing the relevant keys', () => {
+            return request
+              .get('/api/articles/1')
+              .expect(200)
+              .then(({ body: { article } }) => {
+                expect(article).to.contain.keys(
+                  'author',
+                  'title',
+                  'article_id',
+                  'body',
+                  'topic',
+                  'created_at',
+                  'votes',
+                  'comment_count',
+                );
+              });
+          });
         });
-        it('GET status:200 responds with the articles containing the relevant keys', () => {
-          return request
-            .get('/api/articles/1')
-            .expect(200)
-            .then(({ body: { article } }) => {
-              expect(article).to.contain.keys(
-                'author',
-                'title',
-                'article_id',
-                'body',
-                'topic',
-                'created_at',
-                'votes',
-                'comment_count',
-              );
-            });
+        describe('HANDLE ERRORS', () => {
+          it('POST, PUT, PATCH, DELETE status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['post', 'put', 'patch', 'delete'];
+            return Promise.all(
+              invalidMethods.map((method) => {
+                return request[method]('/api/articles/1')
+                  .expect(405)
+                  .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Method Not Allowed');
+                  });
+              }),
+            );
+          });
         });
       });
     });
