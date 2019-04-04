@@ -405,6 +405,30 @@ describe('/', () => {
                 }),
               );
             });
+            it('GET status:200 handles invalid sort_by query by using default value', () => {
+              return request
+                .get('/api/articles/1/comments?sort_by=invalid')
+                .expect(200)
+                .then(({ body: { comments: [comment] } }) => {
+                  expect(comment.comment_id).to.equal(2);
+                });
+            });
+            it('GET status:200 handles invalid order query by using default value', () => {
+              return request
+                .get('/api/articles/1/comments?order=invalid')
+                .expect(200)
+                .then(({ body: { comments: [comment] } }) => {
+                  expect(comment.comment_id).to.equal(2);
+                });
+            });
+            it('GET status:200 handles invalid query parameters', () => {
+              return request
+                .get('/api/articles/1/comments?invalid=invalid')
+                .expect(200)
+                .then(({ body: { comments: [comment] } }) => {
+                  expect(comment.comment_id).to.equal(2);
+                });
+            });
           });
         });
       });
