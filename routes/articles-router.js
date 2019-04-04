@@ -21,6 +21,9 @@ articlesRouter
   .delete(removeArticle)
   .all(methodNotAllowed);
 
-articlesRouter.route('/:article_id/comments').get(fetchArticleComments);
+articlesRouter
+  .route('/:article_id/comments')
+  .get(fetchArticleComments)
+  .all(methodNotAllowed);
 
 module.exports = articlesRouter;
