@@ -191,7 +191,7 @@ describe('/', () => {
             });
         });
       });
-      describe.only('/:article_id', () => {
+      describe('/:article_id', () => {
         describe('DEFAULT BEHAVIOUR', () => {
           it('GET status:200 responds with the article associated with article_id', () => {
             return request
@@ -345,6 +345,26 @@ describe('/', () => {
               .then(({ body: { msg } }) => {
                 expect(msg).to.equal('Bad Request');
               });
+          });
+        });
+        describe.only('/comments', () => {
+          describe('DEFAULT BEHAVIOUR', () => {
+            it('GET status:200', () => {
+              return request
+                .get('/api/articles/1/comments')
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  comments.forEach((comment) => {
+                    expect(comment).to.include.keys(
+                      'comment_id',
+                      'votes',
+                      'created_at',
+                      'author',
+                      'body',
+                    );
+                  });
+                });
+            });
           });
         });
       });

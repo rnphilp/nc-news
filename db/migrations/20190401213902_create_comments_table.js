@@ -1,6 +1,6 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('comments', (comments) => {
-    comments.increments('id').primary();
+    comments.increments('comment_id').primary();
     comments
       .string('author')
       .notNullable()
