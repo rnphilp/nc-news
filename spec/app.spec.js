@@ -13,12 +13,13 @@ describe('/', () => {
   after(() => connection.destroy());
 
   describe('/api', () => {
-    it('GET status:200', () => {
+    it('GET status:200 responds with a JSON description of the api', () => {
       return request
         .get('/api')
         .expect(200)
-        .then(({ body }) => {
-          expect(body.ok).to.equal(true);
+        .then(({ body: { apiContent } }) => {
+          // TODO: Update to include api description
+          expect(apiContent).to.include.keys('key');
         });
     });
     describe('/articles', () => {
