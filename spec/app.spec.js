@@ -292,6 +292,15 @@ describe('/', () => {
                 expect(msg).to.equal("article_id '1000' Could Not Be Found");
               });
           });
+          it('PATCH status:400 response for invalid article_id', () => {
+            return request
+              .patch('/api/articles/invalid')
+              .send({ inc_votes: -1 })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal('Bad Request');
+              });
+          });
         });
       });
     });
