@@ -9,3 +9,14 @@ exports.getArticleComments = ({ article_id }, { sort_by, order }) => {
     .where({ article_id })
     .orderBy(sort_by, order);
 };
+
+exports.postArticleComment = ({ article_id }, comment) => {
+  const commentToAdd = {
+    author: comment.username,
+    body: comment.body,
+    article_id,
+  };
+  return connection('comments')
+    .returning('*')
+    .insert(commentToAdd);
+};

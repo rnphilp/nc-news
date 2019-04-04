@@ -373,6 +373,23 @@ describe('/', () => {
                   expect(comment.comment_id).to.equal(2);
                 });
             });
+            it('POST status:201 request returns the created comment', () => {
+              const comment = { username: 'butter_bridge', body: 'test comment' };
+              const returnedComment = {
+                author: 'butter_bridge',
+                body: 'test comment',
+                comment_id: 19,
+                votes: 0,
+                article_id: 1,
+              };
+              return request
+                .post('/api/articles/1/comments')
+                .send(comment)
+                .expect(202)
+                .then(({ body: { createdComment } }) => {
+                  expect(createdComment).to.deep.include(returnedComment);
+                });
+            });
           });
           describe('QUERIES', () => {
             it('GET status:200 responds with articles sorted by query sort_by', () => {
@@ -393,8 +410,8 @@ describe('/', () => {
             });
           });
           describe('HANDLES ERRORS', () => {
-            it('POST PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
-              const invalidMethods = ['post', 'patch', 'put', 'delete'];
+            it('PUT PATCH DELETE status:405 handle methods that do not exist for this end point', () => {
+              const invalidMethods = ['patch', 'put', 'delete'];
               return Promise.all(
                 invalidMethods.map((method) => {
                   return request[method]('/api/articles/1/comments')
