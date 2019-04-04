@@ -555,6 +555,20 @@ describe('/', () => {
               });
           });
         });
+        describe('HANDLE ERRORS', () => {
+          it('GET, POST, PUT, DELETE status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['get', 'post', 'put', 'delete'];
+            return Promise.all(
+              invalidMethods.map((method) => {
+                return request[method]('/api/comments/1')
+                  .expect(405)
+                  .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Method Not Allowed');
+                  });
+              }),
+            );
+          });
+        });
       });
     });
   });
