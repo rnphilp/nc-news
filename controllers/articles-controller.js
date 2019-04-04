@@ -34,8 +34,15 @@ exports.updateArticle = (req, res, next) => {
     .catch(next);
 };
 
-exports.removeArticle = (req, res) => {
-  deleteArticle(req.params).then(() => {
-    res.status(204).send();
-  });
+exports.removeArticle = (req, res, next) => {
+  deleteArticle(req.params)
+    .then(([removedArticle]) => {
+      if (!removedArticle) {
+        return Promise.reject({
+          status: 404,
+          msg: `article_id '${req.params.article_id}' Could Not Be Found`,
+        });
+      } res.status(204).send();
+    })
+    .catch(next);
 };

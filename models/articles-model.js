@@ -41,6 +41,7 @@ exports.patchArticle = (article_id, { inc_votes }) => {
 
 exports.deleteArticle = (article_id) => {
   return connection('articles')
+    .returning('*')
     .where(article_id)
     .del();
 };
