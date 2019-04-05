@@ -18,8 +18,7 @@ describe('/', () => {
         .get('/api')
         .expect(200)
         .then(({ body: { apiContent } }) => {
-          // TODO: Update to include api description
-          expect(apiContent).to.include.keys('key');
+          expect(apiContent).to.include.keys('notes', 'routes');
         });
     });
     describe('/articles', () => {
