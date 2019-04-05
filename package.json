@@ -15,9 +15,9 @@
     "precommit": "npm test",
     "lint": "eslint ./ --fix --format codeframe",
     "posttest": "npm run lint",
-    "seed-prod": "NODE_ENV=production DATABASE_RUL=$(heroku config:get DATABASE_URL) knex seed:run",
-    "migrate-latest-prod": "NODE_ENV=production DATABASE_RUL=$(heroku config:get DATABASE_URL) knex migrate:latest",
-    "migrate-rollback-prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL=$(heroku config:get DATABASE_URL) knex migrate:rollback"
+    "seed-prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex seed:run",
+    "migrate-latest-prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex migrate:latest",
+    "migrate-rollback-prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex migrate:rollback"
   },
   "author": "",
   "license": "ISC",
