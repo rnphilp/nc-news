@@ -1,9 +1,11 @@
 const { getArticles, patchArticle, deleteArticle } = require('../models/articles-model');
 
-exports.fetchArticles = (req, res) => {
-  getArticles(req.query).then((articles) => {
-    res.status(200).json({ articles });
-  });
+exports.fetchArticles = (req, res, next) => {
+  getArticles(req.query)
+    .then((articles) => {
+      res.status(200).json({ articles });
+    })
+    .catch(next);
 };
 
 exports.fetchArticle = (req, res, next) => {
@@ -42,7 +44,8 @@ exports.removeArticle = (req, res, next) => {
           status: 404,
           msg: `article_id '${req.params.article_id}' Could Not Be Found`,
         });
-      } res.status(204).send();
+      }
+      res.status(204).send();
     })
     .catch(next);
 };
