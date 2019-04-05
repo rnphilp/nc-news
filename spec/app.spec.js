@@ -21,7 +21,7 @@ describe('/', () => {
           expect(apiContent).to.include.keys('notes', 'routes');
         });
     });
-    describe('/articles', () => {
+    describe.only('/articles', () => {
       describe('DEFAULT BEHAVIOUR', () => {
         it('GET status:200 responds with an array of all article objects', () => {
           return request
@@ -70,6 +70,14 @@ describe('/', () => {
               expect(article.title).to.eql('Living in the shadow of a great man');
             });
         });
+        it('GET status:200 response defaults to the first 10 responses', () => {
+          return request
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.eql(10);
+            });
+        });
       });
       describe('QUERIES', () => {
         it('GET status:200 response filters by author', () => {
@@ -106,6 +114,23 @@ describe('/', () => {
             .expect(200)
             .then(({ body: { articles: [article] } }) => {
               expect(article.title).to.equal('Moustache');
+            });
+        });
+        it('GET status: 200 response length according to limit', () => {
+          return request
+            .get('/api/articles?limit=5')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.equal(5);
+            });
+        });
+        it('GET status:200 response starts at the relevant page', () => {
+          return request
+            .get('/api/articles?p=2')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.eql(2);
+              expect(articles[0].article_id).to.equal(11);
             });
         });
       });
@@ -160,6 +185,14 @@ describe('/', () => {
             .expect(200)
             .then(({ body: { articles: [article] } }) => {
               expect(article.title).to.eql('Living in the shadow of a great man');
+            });
+        });
+        it('GET status:200 invalid limit value ignored', () => {
+          return request
+            .get('/api/articles?limit=invalid')
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.eql(10);
             });
         });
       });
