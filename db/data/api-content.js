@@ -12,7 +12,21 @@ exports.apiContent = {
       '/api/articles': {
         GET: {
           description: 'Responds with an array of all article objects',
-          queries: ['author', 'topic', 'sort_by', 'order'],
+          queries: [
+            {
+              author: 'filters the articles by the username value specified in the query',
+            },
+            {
+              topic: 'filters the articles by the topic value specified in the query',
+            },
+            {
+              sort_by: 'sorts the articles by any valid column (defaults to date)',
+            },
+            {
+              order:
+                'can be set to asc or desc for ascending or descending (defaults to descending)',
+            },
+          ],
         },
       },
     },
@@ -35,7 +49,15 @@ exports.apiContent = {
       '/api/articles/:article_id/comments': {
         GET: {
           description: 'Responds with an array of comment objects',
-          queries: ['sort_by', 'order'],
+          queries: [
+            {
+              sort_by: 'sorts the articles by any valid column (defaults to created_at)',
+            },
+            {
+              order:
+                'can be set to asc or desc for ascending or descending (defaults to descending)',
+            },
+          ],
         },
         POST: {
           description: 'Posts the comment and responds with the posted comment object',
