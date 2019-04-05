@@ -195,8 +195,8 @@ describe('/', () => {
               .patch('/api/articles/1')
               .send({ inc_votes: 1 })
               .expect(200)
-              .then(({ body: { updatedArticle } }) => {
-                expect(updatedArticle).to.contain.keys(
+              .then(({ body: { article } }) => {
+                expect(article).to.contain.keys(
                   'author',
                   'title',
                   'article_id',
@@ -212,8 +212,8 @@ describe('/', () => {
               .patch('/api/articles/1')
               .send({ inc_votes: 1 })
               .expect(200)
-              .then(({ body: { updatedArticle } }) => {
-                expect(updatedArticle.votes).to.equal(101);
+              .then(({ body: { article } }) => {
+                expect(article.votes).to.equal(101);
               });
           });
           it('PATCH status:200 responds with a decrease in the votes', () => {
@@ -221,8 +221,8 @@ describe('/', () => {
               .patch('/api/articles/1')
               .send({ inc_votes: -1 })
               .expect(200)
-              .then(({ body: { updatedArticle } }) => {
-                expect(updatedArticle.votes).to.equal(99);
+              .then(({ body: { article } }) => {
+                expect(article.votes).to.equal(99);
               });
           });
           it('DELETE status:204 responds with no content', () => {

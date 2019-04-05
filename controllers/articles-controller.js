@@ -24,14 +24,14 @@ exports.fetchArticle = (req, res, next) => {
 
 exports.updateArticle = (req, res, next) => {
   patchArticle(req.params, req.body)
-    .then(([updatedArticle]) => {
-      if (!updatedArticle) {
+    .then(([article]) => {
+      if (!article) {
         return Promise.reject({
           status: 404,
           msg: `article_id '${req.params.article_id}' Could Not Be Found`,
         });
       }
-      res.status(200).json({ updatedArticle });
+      res.status(200).json({ article });
     })
     .catch(next);
 };
