@@ -1,8 +1,5 @@
 const articlesRouter = require('express').Router();
-const {
-  fetchArticleComments,
-  sendArticleComment,
-} = require('../controllers/article-comments-controller');
+const articleCommentsRouter = require('./article-comments-router');
 
 const {
   fetchArticles,
@@ -24,10 +21,6 @@ articlesRouter
   .delete(removeArticle)
   .all(methodNotAllowed);
 
-articlesRouter
-  .route('/:article_id/comments')
-  .get(fetchArticleComments)
-  .post(sendArticleComment)
-  .all(methodNotAllowed);
+articlesRouter.use('/:article_id/comments', articleCommentsRouter);
 
 module.exports = articlesRouter;
