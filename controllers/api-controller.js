@@ -1,6 +1,5 @@
-const { getApi } = require('../models/api-model');
+const apiContent = require('../db/data/api-content');
 
 exports.fetchApi = (req, res) => {
-  const apiContent = getApi();
   res.status(200).json(apiContent);
 };
