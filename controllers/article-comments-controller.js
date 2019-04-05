@@ -16,8 +16,8 @@ exports.fetchArticleComments = (req, res, next) => {
 
 exports.sendArticleComment = (req, res, next) => {
   postArticleComment(req.params, req.body)
-    .then(([createdComment]) => {
-      res.status(201).send({ createdComment });
+    .then(([comment]) => {
+      res.status(201).send({ comment });
     })
     .catch(next);
 };

@@ -346,7 +346,7 @@ describe('/', () => {
                 });
             });
             it('POST status:201 request returns the created comment', () => {
-              const comment = { username: 'butter_bridge', body: 'test comment' };
+              const sendComment = { username: 'butter_bridge', body: 'test comment' };
               const returnedComment = {
                 author: 'butter_bridge',
                 body: 'test comment',
@@ -356,10 +356,10 @@ describe('/', () => {
               };
               return request
                 .post('/api/articles/1/comments')
-                .send(comment)
+                .send(sendComment)
                 .expect(201)
-                .then(({ body: { createdComment } }) => {
-                  expect(createdComment).to.deep.include(returnedComment);
+                .then(({ body: { comment } }) => {
+                  expect(comment).to.deep.include(returnedComment);
                 });
             });
           });
@@ -497,8 +497,8 @@ describe('/', () => {
               .patch('/api/comments/1')
               .send({ inc_votes: 1 })
               .expect(200)
-              .then(({ body: { updatedComment } }) => {
-                expect(updatedComment).to.include.keys(
+              .then(({ body: { comment } }) => {
+                expect(comment).to.include.keys(
                   'comment_id',
                   'author',
                   'article_id',
@@ -513,8 +513,8 @@ describe('/', () => {
               .patch('/api/comments/1')
               .send({ inc_votes: 1 })
               .expect(200)
-              .then(({ body: { updatedComment } }) => {
-                expect(updatedComment.votes).to.equal(17);
+              .then(({ body: { comment } }) => {
+                expect(comment.votes).to.equal(17);
               });
           });
           it('PATCH status:200 decreases the value of votes', () => {
@@ -522,8 +522,8 @@ describe('/', () => {
               .patch('/api/comments/1')
               .send({ inc_votes: -1 })
               .expect(200)
-              .then(({ body: { updatedComment } }) => {
-                expect(updatedComment.votes).to.equal(15);
+              .then(({ body: { comment } }) => {
+                expect(comment.votes).to.equal(15);
               });
           });
           it('DELETE status:204 removes the comment and returns empty response', () => {
@@ -593,8 +593,8 @@ describe('/', () => {
               .patch('/api/comments/1')
               .send({ inc_votes: 1, invalid: 'invalid' })
               .expect(200)
-              .then(({ body: { updatedComment } }) => {
-                expect(updatedComment.votes).to.equal(17);
+              .then(({ body: { comment } }) => {
+                expect(comment.votes).to.equal(17);
               });
           });
           it('DELETE status:404 for non-existant comment_id', () => {
