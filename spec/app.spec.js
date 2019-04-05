@@ -552,7 +552,7 @@ describe('/', () => {
               }),
             );
           });
-          it('POST status:404 for non-existant comment_id', () => {
+          it('PATCH status:404 for non-existant comment_id', () => {
             return request
               .patch('/api/comments/1000')
               .send({ inc_votes: 1 })
@@ -561,7 +561,7 @@ describe('/', () => {
                 expect(msg).to.equal("comment_id '1000' Not Found");
               });
           });
-          it('POST status:400 for invalid comment_id', () => {
+          it('PATCH status:400 for invalid comment_id', () => {
             return request
               .patch('/api/comments/invalid')
               .send({ inc_votes: 1 })
@@ -570,7 +570,7 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
-          it('POST status:400 for invalid body value', () => {
+          it('PATCH status:400 for invalid body value', () => {
             return request
               .patch('/api/comments/1')
               .send({ inc_votes: 'invalid' })
@@ -579,7 +579,7 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
-          it('POST status:400 for invalid body parameter', () => {
+          it('PATCH status:400 for invalid body parameter', () => {
             return request
               .patch('/api/comments/1')
               .send({ invalid: 'invalid' })
@@ -588,7 +588,7 @@ describe('/', () => {
                 expect(msg).to.equal('Bad Request');
               });
           });
-          it('POST status:200 ignores additional parameters', () => {
+          it('PATCH status:200 ignores additional parameters', () => {
             return request
               .patch('/api/comments/1')
               .send({ inc_votes: 1, invalid: 'invalid' })
