@@ -657,6 +657,18 @@ describe('/', () => {
           });
         });
         describe('HANDLE ERRORS', () => {
+          it('POST, PATCH, PUT, DELETE status:405 handle methods that do not exist for this end point', () => {
+            const invalidMethods = ['post', 'put', 'patch', 'delete'];
+            return Promise.all(
+              invalidMethods.map((method) => {
+                return request[method]('/api/users/:username')
+                  .expect(405)
+                  .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Method Not Allowed');
+                  });
+              }),
+            );
+          });
           it('GET status:404 for non-existant username', () => {
             return request
               .get('/api/users/invalid')
