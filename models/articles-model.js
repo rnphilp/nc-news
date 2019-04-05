@@ -32,16 +32,16 @@ exports.getArticles = ({
   return query;
 };
 
-exports.patchArticle = (article_id, { inc_votes }) => {
+exports.patchArticle = ({ article_id }, { inc_votes }) => {
   return connection('articles')
     .returning(['author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'body'])
     .increment({ votes: inc_votes })
-    .where(article_id);
+    .where({ article_id });
 };
 
-exports.deleteArticle = (article_id) => {
+exports.deleteArticle = ({ article_id }) => {
   return connection('articles')
     .returning('*')
-    .where(article_id)
+    .where({ article_id })
     .del();
 };
